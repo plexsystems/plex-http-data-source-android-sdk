@@ -1,11 +1,11 @@
 # Plex Web Services Android SDK
 
-Plex Web Services Android SDK is a library that provides classes to perform web service calls to Plex Systems.
-These web service calls allow access to the thousands of Plex data sources.
+This Android SDK is a library that provides classes to interact with the Plex Manufacturing Cloud (PMC) through the Http Data Source API.
+These http data source calls allow access to the thousands of PMC data sources.
 
 Runs on Android API 19 (Version 4.4) or above.
 
-A set of Plex web service credentials are required. Knowledge of Plex data sources is helpful.
+A set of PMC web service credentials are required. Knowledge of PMC data sources is helpful.
 
 ## Installation
 
@@ -32,4 +32,4 @@ As much as possible, coding follows the [Google Java Style Guide](https://google
 
 ## Credits
 
-Lead Developer - Barrie Vince [@barrievince](https://github.com/barrievine)
+Lead Developer - Barrie Vince [@barrievince](https://github.com/barrievince)
