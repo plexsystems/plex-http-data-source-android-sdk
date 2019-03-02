@@ -1,4 +1,4 @@
-# Plex Web Services Android SDK
+# Plex Http Data Source Android SDK
 
 This Android SDK is a library that provides classes to interact with the Plex Manufacturing Cloud (PMC) through the Http Data Source API.
 These http data source calls allow access to the thousands of PMC data sources.
