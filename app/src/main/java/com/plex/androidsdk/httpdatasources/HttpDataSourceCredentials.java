@@ -17,35 +17,31 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.plex.androidsdk.webservices.Inventory;
+package com.plex.androidsdk.httpdatasources;
 
-import com.plex.androidsdk.webservices.IWebServiceCallback;
-import com.plex.androidsdk.webservices.WebServiceCredentials;
-import com.plex.androidsdk.webservices.WebServiceTask;
+import android.util.Base64;
 
 /**
- * Implements WebServiceTask to perform a web service call to retrieve the data for a container.
- *
- * Data source: Container_Get1
+ * Contains the credentials used to make an http data source call.
  */
-public class Container_Get1 extends WebServiceTask {
+public class HttpDataSourceCredentials {
 
-  public Container_Get1(IWebServiceCallback callback, WebServiceCredentials credentials) {
-    this(callback, credentials, false);
-  }
+  private String _userName;
+  private String _password;
 
-  public Container_Get1(IWebServiceCallback callback, WebServiceCredentials credentials,
-      boolean test) {
-    super(callback, credentials, test);
+  public HttpDataSourceCredentials(String userName, String password) {
+    _userName = userName;
+    _password = password;
   }
 
   /**
-   * Get the data source key for Container_Get1.
-   *
-   * @return The data source key.
+   * Helper method to get the Http Authorization header text for the credentials.
+   * @return The Http Authorization header text.
    */
-  @Override
-  protected int getDataSourceKey() {
-    return 9680;
+  public String getAuthorization() {
+    String baseTest = _userName + ":" + _password;
+    String base64string = new String(Base64.encode(baseTest.getBytes(), Base64.NO_WRAP));
+    String basicAuthorization = "Basic " + base64string;
+    return basicAuthorization;
   }
 }

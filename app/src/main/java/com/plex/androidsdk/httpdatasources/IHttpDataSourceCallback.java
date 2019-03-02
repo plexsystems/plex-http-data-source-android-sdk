@@ -17,31 +17,40 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.plex.androidsdk.webservices;
-
-import android.util.Base64;
+package com.plex.androidsdk.httpdatasources;
 
 /**
- * Contains the credentials used to make a web service call.
+ * Interface to implement when processing calls to classes that extend HttpDataSourceTask.
  */
-public class WebServiceCredentials {
+public interface IHttpDataSourceCallback {
 
-  private String _userName;
-  private String _password;
+    /**
+     * Progress status codes
+     */
+    interface Progress {
+        int ERROR = -1;
+        int CONNECTION_SUCCESS = 0;
+        int REQUEST_SENT = 1;
+        int RESPONSE_RECEIVED = 2;
+        int PROCESSING_RESULT = 3;
+        int PROCESSING_RESULT_COMPLETE = 4;
+    }
 
-  public WebServiceCredentials(String userName, String password) {
-    _userName = userName;
-    _password = password;
-  }
+    /**
+     * Returns the result of the http data source call to the callback handler.
+     * @param result The result of the http data source call and the data source result.
+     */
+    void onHttpDataSourceComplete(DataSourceResult result);
 
-  /**
-   * Helper method to get the Http Authorization header text for the credentials.
-   * @return The Http Authorization header text.
-   */
-  public String getAuthorization() {
-    String baseTest = _userName + ":" + _password;
-    String base64string = new String(Base64.encode(baseTest.getBytes(), Base64.NO_WRAP));
-    String basicAuthorization = "Basic " + base64string;
-    return basicAuthorization;
-  }
+    /**
+     * Indicate to callback handler any progress update.
+     * @param progressCode One of the constants defined in IHttpDataSourceCallback.Progress.
+     */
+    void onProgressUpdate(int progressCode);
+
+    /**
+     * Indicates that the http data source call has finished. This method is called even if the
+     * download hasn't completed successfully.
+     */
+    void onFinish();
 }

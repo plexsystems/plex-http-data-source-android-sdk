@@ -17,40 +17,49 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.plex.androidsdk.webservices;
+package com.plex.androidsdk.httpdatasources;
 
 /**
- * Interface to implement when processing calls to classes that extend WebServiceTask.
+ * Wrapper class that returns the result of the http data source call. This is passed to the UI thread
+ * for the JSON to be parsed and other logic applied.
  */
-public interface IWebServiceCallback {
+// TODO: Can this be an HttpDataSourceTask internal class?
+public class HttpDataSourceResult {
 
-    /**
-     * Progress status codes
-     */
-    interface Progress {
-        int ERROR = -1;
-        int CONNECTION_SUCCESS = 0;
-        int REQUEST_SENT = 1;
-        int RESPONSE_RECEIVED = 2;
-        int PROCESSING_RESULT = 3;
-        int PROCESSING_RESULT_COMPLETE = 4;
+    private String _jsonResponse;
+    private Exception _exception;
+    private int _responseCode = 0;
+
+    public HttpDataSourceResult(String jsonResponse, int responseCode) {
+        _jsonResponse = jsonResponse;
+        _responseCode = responseCode;
+    }
+
+    public HttpDataSourceResult(Exception exception) {
+        _exception = exception;
     }
 
     /**
-     * Returns the result of the web service call to the callback handler.
-     * @param result The result of the web service call and the data source result.
+     * The payload JSON response.
+     * @return JSON response.
      */
-    void onWebServiceComplete(WebServiceResult result);
+    public String getJsonResponse() {
+        return _jsonResponse;
+    }
 
     /**
-     * Indicate to callback handler any progress update.
-     * @param progressCode One of the constants defined in IWebServiceCallback.Progress.
+     * The Http response code for the http data source call.
+     * @return Http response code.
      */
-    void onProgressUpdate(int progressCode);
+    public int getHTTPResponseCode() {
+        return _responseCode;
+    }
 
     /**
-     * Indicates that the web service call has finished. This method is called even if the
-     * download hasn't completed successfully.
+     * Any Exception that occurred during the execution of the http data source call. Null if no Exception.
+     * @return The Exception.
      */
-    void onFinish();
+    public Exception getException() {
+        return _exception;
+    }
 }
