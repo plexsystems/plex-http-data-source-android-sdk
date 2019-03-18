@@ -21,7 +21,7 @@
 package com.plex.androidsdk.httpdatasources;
 
 public class DataSourceResult {
-    private HttpDataSourceTask.BaseOutputs outputs;
+    private BaseOutputs outputs;
     private Table table;
     private String transactionNo;
     private HttpDataSourceErrors httpDataSourceErrors;
@@ -45,11 +45,11 @@ public class DataSourceResult {
         this.error = error;
     }
 
-    public HttpDataSourceTask.BaseOutputs getOutputs() {
+    public BaseOutputs getOutputs() {
         return outputs;
     }
 
-    public void setOutputs(HttpDataSourceTask.BaseOutputs outputs) {
+    public void setOutputs(BaseOutputs outputs) {
         this.outputs = outputs;
     }
 

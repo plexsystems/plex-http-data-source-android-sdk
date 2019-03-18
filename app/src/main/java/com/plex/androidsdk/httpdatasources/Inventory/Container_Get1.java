@@ -21,6 +21,9 @@ package com.plex.androidsdk.httpdatasources.Inventory;
 
 import com.google.gson.JsonArray;
 import com.google.gson.annotations.SerializedName;
+import com.plex.androidsdk.httpdatasources.BaseOutputs;
+import com.plex.androidsdk.httpdatasources.BaseRow;
+import com.plex.androidsdk.httpdatasources.IBaseInput;
 import com.plex.androidsdk.httpdatasources.IHttpDataSourceCallback;
 import com.plex.androidsdk.httpdatasources.HttpDataSourceCredentials;
 import com.plex.androidsdk.httpdatasources.HttpDataSourceTask;
@@ -67,7 +70,7 @@ public class Container_Get1 extends HttpDataSourceTask {
      * @return BaseInput Contains the input parameter values.
      */
     @Override
-    protected BaseInput getBaseInput() {
+    protected IBaseInput getBaseInput() {
         return inputParameters;
     }
 
@@ -153,18 +156,30 @@ public class Container_Get1 extends HttpDataSourceTask {
         inputParameters.setSerialNo(serialNo);
     }
 
+    /**
+     * Get the Serial No
+     * @return String The serial no.
+     */
+    public String getSerialNo() {
+        return inputParameters.getSerialNo();
+    }
+
     /** ****** CLASSES ****** **/
 
     /**
      * Input parameters for data source call.
      * Used by GSON to serialize into JSON.
      */
-    private class InputParameters extends BaseInput {
+    private class InputParameters implements IBaseInput {
         @SerializedName ("Serial_No")
         private String serialNo;
 
         public void setSerialNo(String serialNo) {
             this.serialNo = serialNo;
+        }
+
+        public String getSerialNo() {
+            return serialNo;
         }
     }
 

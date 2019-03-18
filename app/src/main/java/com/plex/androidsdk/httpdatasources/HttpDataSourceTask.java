@@ -27,7 +27,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.google.gson.annotations.SerializedName;
 import com.google.gson.reflect.TypeToken;
 import com.plex.androidsdk.httpdatasources.IHttpDataSourceCallback.Progress;
 
@@ -237,13 +236,13 @@ public abstract class HttpDataSourceTask extends AsyncTask<HttpDataSourceRequest
      *
      * @return The JSON request
      */
-    private String getJsonRequest(BaseInput baseInput) {
+    private String getJsonRequest(IBaseInput baseInput) {
         String jsonRequest = null;
 
         if (baseInput != null) {
             Gson gson = new Gson();
-            JsonInputs jsonInputs = new JsonInputs(baseInput);
-            jsonRequest = gson.toJson(jsonInputs);
+            BaseInputs baseInputs = new BaseInputs(baseInput);
+            jsonRequest = gson.toJson(baseInputs);
         }
 
         return jsonRequest;
@@ -324,7 +323,7 @@ public abstract class HttpDataSourceTask extends AsyncTask<HttpDataSourceRequest
     }
 
 
-    /** ****** ABSTRACT METHODS ****** **/
+    /* ****** ABSTRACT METHODS ****** **/
 
     /**
      * Get the Plex data source key for the http data source call.
@@ -337,7 +336,7 @@ public abstract class HttpDataSourceTask extends AsyncTask<HttpDataSourceRequest
      *
      * @return An extension of BaseInput that contains the input parameters.
      */
-    protected abstract BaseInput getBaseInput();
+    protected abstract IBaseInput getBaseInput();
 
     /**
      * Output parameters of the http data source.
@@ -353,40 +352,5 @@ public abstract class HttpDataSourceTask extends AsyncTask<HttpDataSourceRequest
      * @param rowArray A row entry in the returned JSON.
      */
     protected abstract BaseRow parseRow(JsonArray rowArray);
-
-
-    /** ****** CLASSES ****** **/
-
-    /**
-     * A class used to serialize the JSON request in to the correct JSON structure.
-     */
-    private class JsonInputs {
-        @SerializedName("inputs")
-        private BaseInput inputs;
-
-        public JsonInputs(BaseInput baseInput) {
-            inputs = baseInput;
-        }
-    }
-
-    /**
-     * A class used to contain the input parameters for a request.
-     */
-    protected class BaseInput {
-    }
-
-    /**
-     * A class used to hold the parsed JSON row element.
-     *
-     * Refer to http://doraprojects.net/blog/?p=2300 for Sql to Java type mapping.
-     */
-    protected class BaseRow {
-    }
-
-    /**
-     * A class used to hold the parsed JSON output element.
-     */
-    protected class BaseOutputs {
-    }
 
 }

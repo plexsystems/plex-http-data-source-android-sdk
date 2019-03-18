@@ -28,7 +28,7 @@ import java.util.List;
  */
 public class Table {
     private List<String> columns;
-    private List<HttpDataSourceTask.BaseRow> rows = new ArrayList<>();
+    private List<BaseRow> rows = new ArrayList<>();
     private boolean rowLimitExceeded = false;
 
     public List<String> getColumns() {
@@ -39,11 +39,11 @@ public class Table {
         this.columns = columns;
     }
 
-    public List<HttpDataSourceTask.BaseRow> getRows() {
+    public List<BaseRow> getRows() {
         return rows;
     }
 
-    public void addRow(HttpDataSourceTask.BaseRow row) {
+    public void addRow(BaseRow row) {
         rows.add(row);
     }
 
