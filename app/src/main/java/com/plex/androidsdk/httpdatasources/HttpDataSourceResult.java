@@ -20,46 +20,48 @@
 package com.plex.androidsdk.httpdatasources;
 
 /**
- * Wrapper class that returns the result of the http data source call. This is passed to the UI thread
- * for the JSON to be parsed and other logic applied.
+ * Wrapper class that returns the result of the http data source call. This is passed to the UI thread for the JSON to be parsed and other logic
+ * applied.
  */
-// TODO: Can this be an HttpDataSourceTask internal class?
 public class HttpDataSourceResult {
 
-    private String _jsonResponse;
-    private Exception _exception;
-    private int _responseCode = 0;
+  private String _jsonResponse;
+  private Exception _exception;
+  private int _responseCode = 0;
 
-    public HttpDataSourceResult(String jsonResponse, int responseCode) {
-        _jsonResponse = jsonResponse;
-        _responseCode = responseCode;
-    }
+  public HttpDataSourceResult(String jsonResponse, int responseCode) {
+    _jsonResponse = jsonResponse;
+    _responseCode = responseCode;
+  }
 
-    public HttpDataSourceResult(Exception exception) {
-        _exception = exception;
-    }
+  public HttpDataSourceResult(Exception exception) {
+    _exception = exception;
+  }
 
-    /**
-     * The payload JSON response.
-     * @return JSON response.
-     */
-    public String getJsonResponse() {
-        return _jsonResponse;
-    }
+  /**
+   * The payload JSON response.
+   *
+   * @return JSON response.
+   */
+  public String getJsonResponse() {
+    return _jsonResponse;
+  }
 
-    /**
-     * The Http response code for the http data source call.
-     * @return Http response code.
-     */
-    public int getHTTPResponseCode() {
-        return _responseCode;
-    }
+  /**
+   * The Http response code for the http data source call.
+   *
+   * @return Http response code.
+   */
+  public int getHTTPResponseCode() {
+    return _responseCode;
+  }
 
-    /**
-     * Any Exception that occurred during the execution of the http data source call. Null if no Exception.
-     * @return The Exception.
-     */
-    public Exception getException() {
-        return _exception;
-    }
+  /**
+   * Any Exception that occurred during the execution of the http data source call. Null if no Exception.
+   *
+   * @return The Exception.
+   */
+  public Exception getException() {
+    return _exception;
+  }
 }

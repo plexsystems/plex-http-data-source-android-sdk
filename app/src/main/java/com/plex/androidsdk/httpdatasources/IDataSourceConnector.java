@@ -20,23 +20,11 @@
 
 package com.plex.androidsdk.httpdatasources;
 
-import com.google.gson.annotations.SerializedName;
-
 /**
- * Used with GSON to deserialize any errors JSON.
+ * Interface for making Http request to data source server.
  */
-public class HttpDataSourceErrors {
+public interface IDataSourceConnector {
 
-  @SerializedName("errors")
-  private HttpDataSourceError[] errors;
-  @SerializedName("transactionNo")
-  private String transactionNo;
-
-  public HttpDataSourceError[] getErrors() {
-    return errors;
-  }
-
-  public String getTransactionNo() {
-    return transactionNo;
-  }
+  void execute(int dataSourceKey, HttpDataSourceCredentials credentials, String serverName, boolean useTestServer, String jsonRequest,
+      IDataSourceConnectorCallback callback);
 }

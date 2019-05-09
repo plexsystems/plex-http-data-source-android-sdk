@@ -20,61 +20,65 @@
 
 package com.plex.androidsdk.httpdatasources;
 
+/**
+ * A data class returned to the DataSource instance on
+ */
 public class DataSourceResult {
-    private BaseOutputs outputs;
-    private Table table;
-    private String transactionNo;
-    private HttpDataSourceErrors httpDataSourceErrors;
-    private Exception exception;
-    private boolean error;
 
-    public void setException(Exception exception) {
-        this.exception = exception;
-        this.error = true;
-    }
+  private BaseOutputs outputs;
+  private Table table;
+  private String transactionNo;
+  private HttpDataSourceErrors httpDataSourceErrors;
+  private Exception exception;
+  private boolean error;
 
-    public Exception getException() {
-        return exception;
-    }
+  public void setException(Exception exception) {
+    this.exception = exception;
+    this.error = true;
+  }
 
-    public boolean isError() {
-        return error;
-    }
+  public Exception getException() {
+    return exception;
+  }
 
-    public void setError(boolean error) {
-        this.error = error;
-    }
+  public boolean isError() {
+    return error;
+  }
 
-    public BaseOutputs getOutputs() {
-        return outputs;
-    }
+  public void setError(boolean error) {
+    this.error = error;
+  }
 
-    public void setOutputs(BaseOutputs outputs) {
-        this.outputs = outputs;
-    }
+  public BaseOutputs getOutputs() {
+    return outputs;
+  }
 
-    public Table getTable() {
-        return table;
-    }
+  public void setOutputs(BaseOutputs outputs) {
+    this.outputs = outputs;
+  }
 
-    public void setTable(Table table) {
-        this.table = table;
-    }
+  public Table getTable() {
+    return table;
+  }
 
-    public String getTransactionNo() {
-        return transactionNo;
-    }
+  public void setTable(Table table) {
+    this.table = table;
+  }
 
-    public void setTransactionNo(String transactionNo) {
-        this.transactionNo = transactionNo;
-    }
+  public String getTransactionNo() {
+    return transactionNo;
+  }
 
-    public HttpDataSourceErrors getHttpDataSourceErrors() {
-        return httpDataSourceErrors;
-    }
+  public void setTransactionNo(String transactionNo) {
+    this.transactionNo = transactionNo;
+  }
 
-    public void setHttpDataSourceErrors(HttpDataSourceErrors httpDataSourceErrors) {
-        this.httpDataSourceErrors = httpDataSourceErrors;
-        this.error = true;
-    }
+  public HttpDataSourceErrors getHttpDataSourceErrors() {
+    return httpDataSourceErrors;
+  }
+
+  public void setHttpDataSourceErrors(HttpDataSourceErrors httpDataSourceErrors) {
+    this.httpDataSourceErrors = httpDataSourceErrors;
+    this.error = true;
+  }
 }

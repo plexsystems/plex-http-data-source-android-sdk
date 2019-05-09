@@ -36,6 +36,7 @@ public class HttpDataSourceCredentials {
 
   /**
    * Helper method to get the Http Authorization header text for the credentials.
+   *
    * @return The Http Authorization header text.
    */
   public String getAuthorization() {

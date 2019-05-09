@@ -20,37 +20,34 @@
 package com.plex.androidsdk.httpdatasources;
 
 /**
- * Interface to implement when processing calls to classes that extend HttpDataSourceTask.
+ * Interface to implement when processing calls to classes that extend HttpConnectorTask.
  */
-public interface IHttpDataSourceCallback {
+public interface IDataSourceConnectorCallback {
 
-    /**
-     * Progress status codes
-     */
-    interface Progress {
-        int ERROR = -1;
-        int CONNECTION_SUCCESS = 0;
-        int REQUEST_SENT = 1;
-        int RESPONSE_RECEIVED = 2;
-        int PROCESSING_RESULT = 3;
-        int PROCESSING_RESULT_COMPLETE = 4;
-    }
+  /**
+   * Progress status codes
+   */
+  interface Progress {
 
-    /**
-     * Returns the result of the http data source call to the callback handler.
-     * @param result The result of the http data source call and the data source result.
-     */
-    void onHttpDataSourceComplete(DataSourceResult result);
+    int ERROR = -1;
+    int CONNECTION_SUCCESS = 0;
+    int REQUEST_SENT = 1;
+    int RESPONSE_RECEIVED = 2;
+    int PROCESSING_RESULT = 3;
+    int PROCESSING_RESULT_COMPLETE = 4;
+  }
 
-    /**
-     * Indicate to callback handler any progress update.
-     * @param progressCode One of the constants defined in IHttpDataSourceCallback.Progress.
-     */
-    void onProgressUpdate(int progressCode);
+  /**
+   * Returns the result of the data source connector to the callback handler.
+   *
+   * @param result The result of the data source connector.
+   */
+  void onDataSourceConnectorComplete(HttpDataSourceResult result);
 
-    /**
-     * Indicates that the http data source call has finished. This method is called even if the
-     * download hasn't completed successfully.
-     */
-    void onFinish();
+  /**
+   * Indicate to callback handler any progress update.
+   *
+   * @param progressCode One of the constants defined in IDataSourceConnectorCallback.Progress.
+   */
+  void onProgressUpdate(int progressCode);
 }
