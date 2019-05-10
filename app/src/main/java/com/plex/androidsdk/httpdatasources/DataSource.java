@@ -51,7 +51,7 @@ public abstract class DataSource implements IDataSourceConnectorCallback {
     this(iDataSourceCallback, credentials, serverName, useTestServer, new HttpDataSourceConnector());
   }
 
-  public DataSource(IDataSourceCallback iDataSourceCallback, HttpDataSourceCredentials credentials, String serverName, boolean useTestServer,
+  protected DataSource(IDataSourceCallback iDataSourceCallback, HttpDataSourceCredentials credentials, String serverName, boolean useTestServer,
       IDataSourceConnector connector) {
     _dataSourceCallback = iDataSourceCallback;
     _credentials = credentials;
