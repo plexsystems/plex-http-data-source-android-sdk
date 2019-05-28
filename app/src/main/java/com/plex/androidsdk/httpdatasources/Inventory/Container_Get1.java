@@ -22,13 +22,11 @@ package com.plex.androidsdk.httpdatasources.Inventory;
 
 import com.google.gson.JsonArray;
 import com.google.gson.annotations.SerializedName;
-import com.plex.androidsdk.httpdatasources.BaseOutputs;
 import com.plex.androidsdk.httpdatasources.BaseRow;
 import com.plex.androidsdk.httpdatasources.DataSource;
+import com.plex.androidsdk.httpdatasources.HttpDataSourceCredentials;
 import com.plex.androidsdk.httpdatasources.IBaseInput;
 import com.plex.androidsdk.httpdatasources.IDataSourceCallback;
-import com.plex.androidsdk.httpdatasources.HttpDataSourceCredentials;
-
 import java.math.BigDecimal;
 
 /**
@@ -56,21 +54,21 @@ public class Container_Get1 extends DataSource {
   }
 
   /**
-   * Method to enable setting the Serial No input parameter.
-   *
-   * @param serialNo The Serial No to search for.
-   */
-  public void setSerialNo(String serialNo) {
-    inputParameters.setSerialNo(serialNo);
-  }
-
-  /**
    * Get the Serial No
    *
    * @return String The serial no.
    */
   public String getSerialNo() {
     return inputParameters.getSerialNo();
+  }
+
+  /**
+   * Method to enable setting the Serial No input parameter.
+   *
+   * @param serialNo The Serial No to search for.
+   */
+  public void setSerialNo(String serialNo) {
+    inputParameters.setSerialNo(serialNo);
   }
 
   //region ABSTRACT METHOD IMPLEMENTATION
@@ -94,16 +92,6 @@ public class Container_Get1 extends DataSource {
   @Override
   protected IBaseInput getBaseInput() {
     return inputParameters;
-  }
-
-  /**
-   * Since this data source doesn't return any outputs, just return null.
-   *
-   * @return Null
-   */
-  @Override
-  protected BaseOutputs getBaseOutput() {
-    return null;
   }
 
   /**
@@ -181,12 +169,12 @@ public class Container_Get1 extends DataSource {
     @SerializedName("Serial_No")
     private String serialNo;
 
-    public void setSerialNo(String serialNo) {
-      this.serialNo = serialNo;
+    String getSerialNo() {
+      return serialNo;
     }
 
-    public String getSerialNo() {
-      return serialNo;
+    void setSerialNo(String serialNo) {
+      this.serialNo = serialNo;
     }
   }
 

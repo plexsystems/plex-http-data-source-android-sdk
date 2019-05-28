@@ -23,7 +23,6 @@ package com.plex.androidsdk.httpdatasources.part;
 
 import com.google.gson.JsonArray;
 import com.google.gson.annotations.SerializedName;
-import com.plex.androidsdk.httpdatasources.BaseOutputs;
 import com.plex.androidsdk.httpdatasources.BaseRow;
 import com.plex.androidsdk.httpdatasources.DataSource;
 import com.plex.androidsdk.httpdatasources.HttpDataSourceCredentials;
@@ -33,7 +32,6 @@ import com.plex.androidsdk.httpdatasources.IDataSourceConnector;
 
 /**
  * Data source: Parts_Picker_Get2
- *
  */
 public class Parts_Picker_Get2 extends DataSource {
 
@@ -42,21 +40,22 @@ public class Parts_Picker_Get2 extends DataSource {
   /**
    * {@inheritDoc} Shortcut constructor for production.
    */
-  public Parts_Picker_Get2(IDataSourceCallback iDataSourceCallback, HttpDataSourceCredentials credentials, String serverName) {
+  Parts_Picker_Get2(IDataSourceCallback iDataSourceCallback, HttpDataSourceCredentials credentials, String serverName) {
     this(iDataSourceCallback, credentials, serverName, false);
   }
 
   /**
    * {@inheritDoc}
    */
-  public Parts_Picker_Get2(IDataSourceCallback iDataSourceCallback, HttpDataSourceCredentials credentials, String serverName, boolean useTestServer) {
+  Parts_Picker_Get2(IDataSourceCallback iDataSourceCallback, HttpDataSourceCredentials credentials, String serverName, boolean useTestServer) {
     super(iDataSourceCallback, credentials, serverName, useTestServer);
   }
 
   /**
    * {@inheritDoc}
    */
-  protected Parts_Picker_Get2(IDataSourceCallback iDataSourceCallback, HttpDataSourceCredentials credentials, String serverName, boolean useTestServer,
+  protected Parts_Picker_Get2(IDataSourceCallback iDataSourceCallback, HttpDataSourceCredentials credentials, String serverName,
+      boolean useTestServer,
       IDataSourceConnector connector) {
     super(iDataSourceCallback, credentials, serverName, useTestServer, connector);
   }
@@ -90,11 +89,6 @@ public class Parts_Picker_Get2 extends DataSource {
   }
 
   @Override
-  protected BaseOutputs getBaseOutput() {
-    return null;
-  }
-
-  @Override
   protected BaseRow parseRow(JsonArray rowArray) {
     Row row = null;
 
@@ -103,8 +97,8 @@ public class Parts_Picker_Get2 extends DataSource {
       row = new Row();
 
       // Loop through all the fields and assign the data to Row.
-      for (int i = 0; i < rowArray.size(); ++i) {
-        switch (i) {
+      for (int columnIndex = 0; columnIndex < rowArray.size(); ++columnIndex) {
+        switch (columnIndex) {
           case 0: // Part Key
             row.setPartKey(rowArray.get(0).getAsInt());
             break;
@@ -137,11 +131,11 @@ public class Parts_Picker_Get2 extends DataSource {
     @SerializedName("Part_No")
     private String partNo;
 
-    public String getPartNo() {
+    String getPartNo() {
       return partNo;
     }
 
-    public void setPartNo(String partNo) {
+    void setPartNo(String partNo) {
       this.partNo = partNo;
     }
   }

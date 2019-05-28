@@ -27,7 +27,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.reflect.TypeToken;
-
 import java.lang.reflect.Type;
 import java.util.List;
 
@@ -133,6 +132,7 @@ public abstract class DataSource implements IDataSourceConnectorCallback {
 
         JsonElement outputsElement = jsonObject.get("outputs");
         dsResult.setOutputs(new Gson().fromJson(outputsElement, BaseOutputs.class));
+        dsResult.setOutputs((BaseOutputs) new Gson().fromJson(outputsElement, this.getBaseOutputType()));
       }
 
       // Convert any tables to instance objects
@@ -211,11 +211,15 @@ public abstract class DataSource implements IDataSourceConnectorCallback {
   protected abstract IBaseInput getBaseInput();
 
   /**
-   * Output parameters of the http data source. Will return null if no output is expected.
+   * Returns the Type of the BaseOutput class implemented by the class extending DataSource. Use by GSON to Deserialize the "outputs" section of the
+   * result JSON.
    *
-   * @return An extension of BaseOutputs that contains the fields of the output parameters.
+   * @return The Type of the class that will hold the outputs.
    */
-  protected abstract BaseOutputs getBaseOutput();
+  protected Type getBaseOutputType() {
+    return BaseOutputs.class;
+  }
+
 
   /**
    * Parses a row entry for the returned JSON.
