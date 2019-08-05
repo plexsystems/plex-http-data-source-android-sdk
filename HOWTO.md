@@ -37,9 +37,8 @@ will serialize into
 
 Also, create methods to get/set the InputParameters properties.
 
-getBaseOutput() – Returns any output parameters of the http data source.
+getOutputType() - Returns the class type for a class that contains the output parameters for the http data source. The class field names need to match the output parameter field names of the data source. This can be done by either naming the field the same as the parameter OR by using com.google.gson.annotations.SerializedName. The type is used by GSON to deserialize into an instance of the class. 
 
-parseRow() – Used by the data source to parse the result Json row data into a BaseRow instance. Usually create an internal Row class that extends BaseRow, and contains properties that match the columns of the data source result set.
-
+getRowType() - Returns the class type for a class that contains the columns or a row for the http data source. The class field names need to match the column names of the data source. This can be done by either naming the field the same as the column OR by using com.google.gson.annotations.SerializedName. The type is used by GSON to deserialize a row into an instance of the class.
 
 Remember to create unit tests.

@@ -20,7 +20,7 @@
 
 package com.plex.androidsdk.httpdatasources.part;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import com.plex.androidsdk.httpdatasources.DataSourceResult;
 import com.plex.androidsdk.httpdatasources.HttpDataSourceCredentials;
@@ -49,6 +49,19 @@ public class Part_Name_Output_GetTest {
     int expectedValue = 1234;
     pnog.setPartKey(expectedValue);
     assertEquals(expectedValue, pnog.getPartKey());
+  }
+
+  /**
+   * Test JSON input parameters format
+   */
+  @Test
+  public void testInputParameterJSON() {
+    int partKey = 1234;
+    String expectedValue = "{\"Part_Key\":1234}";
+
+    Part_Name_Output_Get pnog = new Part_Name_Output_Get(null, null, null);
+    pnog.setPartKey(partKey);
+    assertEquals(expectedValue, pnog.getJsonRequest());
   }
 
   @Test
@@ -87,13 +100,7 @@ public class Part_Name_Output_GetTest {
     public void execute(int dataSourceKey, HttpDataSourceCredentials credentials, String serverName, boolean useTestServer, String jsonRequest,
         IDataSourceConnectorCallback callback) {
 
-      String jsonResponse = "{\n"
-          + "    \"outputs\": {\n"
-          + "        \"Name\": \"Rear Suspension Arm\"\n"
-          + "    },\n"
-          + "    \"tables\": [],\n"
-          + "    \"transactionNo\": \"3835652\"\n"
-          + "}";
+      String jsonResponse = "{\"outputs\":{\"Name\":\"Rear Suspension Arm\"},\"rows\":[],\"rowLimitExceeded\":false,\"transactionNo\":\"3836083\"}";
 
       HttpDataSourceResult result = new HttpDataSourceResult(jsonResponse, 200);
 

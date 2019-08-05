@@ -20,9 +20,11 @@
 
 package com.plex.androidsdk.httpdatasources.part;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
-import com.google.gson.JsonArray;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.plex.androidsdk.httpdatasources.DataSourceResult;
 import com.plex.androidsdk.httpdatasources.HttpDataSourceCredentials;
@@ -30,7 +32,6 @@ import com.plex.androidsdk.httpdatasources.HttpDataSourceResult;
 import com.plex.androidsdk.httpdatasources.IDataSourceCallback;
 import com.plex.androidsdk.httpdatasources.IDataSourceConnector;
 import com.plex.androidsdk.httpdatasources.IDataSourceConnectorCallback;
-import java.util.List;
 import org.junit.Test;
 
 public class Parts_Picker_Get2Test {
@@ -59,14 +60,28 @@ public class Parts_Picker_Get2Test {
   }
 
   /**
+   * Test JSON input parameters format
+   */
+  @Test
+  public void testInputParameterJSON() {
+    String partNo = "4709-A";
+    String expectedValue = "{\"Part_No\":\"4709-A\"}";
+
+    Parts_Picker_Get2 ppg = new Parts_Picker_Get2(null, null, null);
+    ppg.setPartNo(partNo);
+    assertEquals(expectedValue, ppg.getJsonRequest());
+  }
+
+  /**
    * Test parsing a row
    */
   @Test
   public void parseRow_Good() {
     ExpectedGoodRow expectedData = new ExpectedGoodRow();
-    JsonArray inputData = this.getGoodRowJsonArray();
+    JsonObject inputObject = this.getGoodRowJsonObject();
 
-    Parts_Picker_Get2.Row row = (Parts_Picker_Get2.Row) new Parts_Picker_Get2(null, null, null).parseRow(inputData);
+    Gson gson = new Gson();
+    Parts_Picker_Get2.Row row = gson.fromJson(inputObject, Parts_Picker_Get2.Row.class);
 
     assertNotNull(row);
     assertEquals(expectedData.PartKey, row.getPartKey());
@@ -87,15 +102,16 @@ public class Parts_Picker_Get2Test {
 
   /**
    * Data to test row parsing logic.
+   *
    * @return A JsonArray of know values representing a row.
    */
-  private JsonArray getGoodRowJsonArray() {
-    String testRow = " [12345, \n\"Part No Revision Value\",\n\"Name Value\",\n\"Part Status Value\",\n\"Old Part No Value\"]";
-    return new JsonParser().parse(testRow).getAsJsonArray();
+  private JsonObject getGoodRowJsonObject() {
+    String testRow = "{\"Part_Key\":12345, \"Part_No_Revision\":\"Part No Revision Value\",\"Name\":\"Name Value\",\"Part_Status\":\"Part Status Value\",\"Old_Part_No\":\"Old Part No Value\"}";
+    return new JsonParser().parse(testRow).getAsJsonObject();
   }
 
   /**
-   * A class containing the expected data values for getGoodRowJsonArray.
+   * A class containing the expected data values for getGoodRowJsonObject.
    */
   private class ExpectedGoodRow {
 
@@ -125,37 +141,21 @@ public class Parts_Picker_Get2Test {
       String expectedPartNoRevision = "ABC";
       String expectedName = "ABC Name";
       String expectedPartStatus = "Production";
-      int expectedColumnCount = 5;
-      String expectedColumn1 = "Part_Key";
-      String expectedColumn2 = "Part_No_Revision";
-      String expectedColumn3 = "Name";
-      String expectedColumn4 = "Part_Status";
-      String expectedColumn5 = "Old_Part_No";
 
-      assertEquals(expectedRowCount, dataSourceResult.getTable().getRows().size());
+      assertEquals(expectedRowCount, dataSourceResult.getRows().size());
 
-      Parts_Picker_Get2.Row row0 = (Parts_Picker_Get2.Row) dataSourceResult.getTable().getRows().get(0);
+      Parts_Picker_Get2.Row row0 = (Parts_Picker_Get2.Row) dataSourceResult.getRows().get(0);
 
       assertNotNull(row0);
       assertEquals(expectedPartKey, row0.getPartKey());
       assertEquals(expectedPartNoRevision, row0.getPartNoRevision());
       assertEquals(expectedName, row0.getName());
       assertEquals(expectedPartStatus, row0.getPartStatus());
-
-      List<String> columns = dataSourceResult.getTable().getColumns();
-      assertEquals(expectedColumnCount, columns.size());
-      assertEquals(expectedColumn1, columns.get(0));
-      assertEquals(expectedColumn2, columns.get(1));
-      assertEquals(expectedColumn3, columns.get(2));
-      assertEquals(expectedColumn4, columns.get(3));
-      assertEquals(expectedColumn5, columns.get(4));
-
     }
   }
 
   /**
-   * Test connector that represents a connection to a server. Returns a known package to test parsing logic.
-   * Inject into the data source constructor.
+   * Test connector that represents a connection to a server. Returns a known package to test parsing logic. Inject into the data source constructor.
    */
   private class TestConnector implements IDataSourceConnector {
 
@@ -164,36 +164,23 @@ public class Parts_Picker_Get2Test {
         IDataSourceConnectorCallback callback) {
 
       String jsonResponse = "{\n"
-          + "    \"outputs\": {},\n"
-          + "    \"tables\": [\n"
+          + "    \"outputs\": {},    \"rows\": [\n"
           + "        {\n"
-          + "            \"columns\": [\n"
-          + "                \"Part_Key\",\n"
-          + "                \"Part_No_Revision\",\n"
-          + "                \"Name\",\n"
-          + "                \"Part_Status\",\n"
-          + "                \"Old_Part_No\"\n"
-          + "            ],\n"
-          + "            \"rows\": [\n"
-          + "                [\n"
-          + "                    1859416,\n"
-          + "                    \"ABC\",\n"
-          + "                    \"ABC Name\",\n"
-          + "                    \"Production\",\n"
-          + "                    \"\"\n"
-          + "                ],\n"
-          + "                [\n"
-          + "                    246334,\n"
-          + "                    \"ABC-1-A\",\n"
-          + "                    \"Large Stamping\",\n"
-          + "                    \"Production\",\n"
-          + "                    \"OldPart No\"\n"
-          + "                ]\n"
-          + "            ],\n"
-          + "            \"rowLimitExceeded\": false\n"
-          + "        }\n"
-          + "    ],\n"
-          + "    \"transactionNo\": \"3835453\"\n"
+          + "            \"Part_Key\": 1859416,\n"
+          + "            \"Part_No_Revision\": \"ABC\",\n"
+          + "            \"Name\": \"ABC Name\",\n"
+          + "            \"Part_Status\": \"Production\",\n"
+          + "            \"Old_Part_No\": \"\"\n"
+          + "        },\n"
+          + "        {\n"
+          + "            \"Part_Key\": 246334,\n"
+          + "            \"Part_No_Revision\": \"ABC-1-A\",\n"
+          + "            \"Name\": \"Large Stamping\",\n"
+          + "            \"Part_Status\": \"Production\",\n"
+          + "            \"Old_Part_No\": \"OldPart No\"\n"
+          + "        }],"
+          + "    \"rowLimitExceeded\": false,\n"
+          + "    \"transactionNo\": \"3836077\"\n"
           + "}";
 
       HttpDataSourceResult result = new HttpDataSourceResult(jsonResponse, 200);

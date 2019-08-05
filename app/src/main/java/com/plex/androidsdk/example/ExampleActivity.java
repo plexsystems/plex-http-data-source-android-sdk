@@ -100,9 +100,9 @@ public class ExampleActivity extends AppCompatActivity implements IDataSourceCal
     if (dataSourceResult.getException() == null) {  // Was there an exception during the execution?
       if (dataSourceResult.isError() == false) {  // Was the http request successful?
         // For this data source there should only ever by 1 row because it's a GET method..
-        if (dataSourceResult.getTable().getRows().size() > 0) {
+        if (dataSourceResult.getRows().size() > 0) {
           // Display the data
-          Container_Get1.Row row = (Container_Get1.Row) dataSourceResult.getTable().getRows().get(0);
+          Container_Get1.Row row = (Container_Get1.Row) dataSourceResult.getRows().get(0);
           ((TextView) findViewById(R.id.partNoRevision)).setText(row.getPartNoRevision());
           ((TextView) findViewById(R.id.partName)).setText(row.getName());
           ((TextView) findViewById(R.id.operationCode)).setText(row.getOperationCode());

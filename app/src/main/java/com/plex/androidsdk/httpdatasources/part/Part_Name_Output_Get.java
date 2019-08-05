@@ -20,10 +20,8 @@
 
 package com.plex.androidsdk.httpdatasources.part;
 
-import com.google.gson.JsonArray;
 import com.google.gson.annotations.SerializedName;
 import com.plex.androidsdk.httpdatasources.BaseOutputs;
-import com.plex.androidsdk.httpdatasources.BaseRow;
 import com.plex.androidsdk.httpdatasources.DataSource;
 import com.plex.androidsdk.httpdatasources.HttpDataSourceCredentials;
 import com.plex.androidsdk.httpdatasources.IBaseInput;
@@ -82,15 +80,15 @@ public class Part_Name_Output_Get extends DataSource {
    * {@inheritDoc}
    */
   @Override
-  protected Type getBaseOutputType() {
-    return Part_Name_Output_Get.OutputParameters.class;
+  protected Type getOutputType() {
+    return OutputParameters.class;
   }
 
   /**
    * {@inheritDoc}
    */
   @Override
-  protected BaseRow parseRow(JsonArray rowArray) {
+  protected Type getRowType() {
     return null;
   }
 

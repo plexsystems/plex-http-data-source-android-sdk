@@ -21,7 +21,6 @@
 package com.plex.androidsdk.httpdatasources.part;
 
 
-import com.google.gson.JsonArray;
 import com.google.gson.annotations.SerializedName;
 import com.plex.androidsdk.httpdatasources.BaseRow;
 import com.plex.androidsdk.httpdatasources.DataSource;
@@ -29,6 +28,7 @@ import com.plex.androidsdk.httpdatasources.HttpDataSourceCredentials;
 import com.plex.androidsdk.httpdatasources.IBaseInput;
 import com.plex.androidsdk.httpdatasources.IDataSourceCallback;
 import com.plex.androidsdk.httpdatasources.IDataSourceConnector;
+import java.lang.reflect.Type;
 
 /**
  * Data source: Parts_Picker_Get2
@@ -78,6 +78,8 @@ public class Parts_Picker_Get2 extends DataSource {
     inputParameters.setPartNo(partNo);
   }
 
+  //region ABSTRACT IMPLEMENTATION
+
   @Override
   protected int getDataSourceKey() {
     return 1791;
@@ -89,37 +91,16 @@ public class Parts_Picker_Get2 extends DataSource {
   }
 
   @Override
-  protected BaseRow parseRow(JsonArray rowArray) {
-    Row row = null;
-
-    // Make sure there is data
-    if (rowArray.size() > 0) {
-      row = new Row();
-
-      // Loop through all the fields and assign the data to Row.
-      for (int columnIndex = 0; columnIndex < rowArray.size(); ++columnIndex) {
-        switch (columnIndex) {
-          case 0: // Part Key
-            row.setPartKey(rowArray.get(0).getAsInt());
-            break;
-          case 1: // Part No Revision
-            row.setPartNoRevision(rowArray.get(1).getAsString());
-            break;
-          case 2: // Name
-            row.setName(rowArray.get(2).getAsString());
-            break;
-          case 3: // Part Status
-            row.setPartStatus(rowArray.get(3).getAsString());
-            break;
-          case 4: // Old Part No
-            row.setOldPartNo(rowArray.get(4).getAsString());
-            break;
-        }
-      }
-    }
-
-    return row;
+  protected Type getOutputType() {
+    return null;
   }
+
+  @Override
+  protected Type getRowType() {
+    return Row.class;
+  }
+
+  //endregion
 
   //region INTERNAL CLASSES
 
@@ -145,10 +126,15 @@ public class Parts_Picker_Get2 extends DataSource {
    */
   public class Row extends BaseRow {
 
+    @SerializedName("Part_Key")
     private int partKey;
+    @SerializedName("Part_No_Revision")
     private String partNoRevision;
+    @SerializedName("Name")
     private String name;
+    @SerializedName("Part_Status")
     private String partStatus;
+    @SerializedName("Old_Part_No")
     private String oldPartNo;
 
     public int getPartKey() {

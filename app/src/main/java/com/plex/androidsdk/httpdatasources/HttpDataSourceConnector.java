@@ -33,8 +33,8 @@ import javax.net.ssl.HttpsURLConnection;
 
 public class HttpDataSourceConnector implements IDataSourceConnector {
 
-  private static final String PRODUCTION_URL_FORMAT = "https://%1s.plex.com/api/datasources/%2s/execute";
-  private static final String TEST_URL_FORMAT = "https://test.%1s.plex.com/api/datasources/%2s/execute";
+  private static final String PRODUCTION_URL_FORMAT = "https://%1s.plex.com/api/datasources/%2s/execute?format=2";
+  private static final String TEST_URL_FORMAT = "https://test.%1s.plex.com/api/datasources/%2s/execute?format=2";
   private IDataSourceConnectorCallback _callback;
 
   @Override
