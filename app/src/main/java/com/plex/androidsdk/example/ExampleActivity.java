@@ -85,7 +85,7 @@ public class ExampleActivity extends AppCompatActivity implements IDataSourceCal
 
         Container_Get1 containerGet1 = new Container_Get1(this, credentials, serverName, useTestServer);
         containerGet1.setSerialNo(serialNo);
-        containerGet1.execute();
+        containerGet1.execute(1);
       }
     }
   }
@@ -96,39 +96,42 @@ public class ExampleActivity extends AppCompatActivity implements IDataSourceCal
    * @param dataSourceResult The DataSourceResult containing the data source result.
    */
   @Override
-  public void onDataSourceComplete(DataSourceResult dataSourceResult) {
-    if (dataSourceResult.getException() == null) {  // Was there an exception during the execution?
-      if (dataSourceResult.isError() == false) {  // Was the http request successful?
-        // For this data source there should only ever by 1 row because it's a GET method..
-        if (dataSourceResult.getRows().size() > 0) {
-          // Display the data
-          Container_Get1.Row row = (Container_Get1.Row) dataSourceResult.getRows().get(0);
-          ((TextView) findViewById(R.id.partNoRevision)).setText(row.getPartNoRevision());
-          ((TextView) findViewById(R.id.partName)).setText(row.getName());
-          ((TextView) findViewById(R.id.operationCode)).setText(row.getOperationCode());
-          ((TextView) findViewById(R.id.quantity)).setText(row.getQuantity().toString());
-          ((TextView) findViewById(R.id.status)).setText(row.getContainerStatus());
-          ((TextView) findViewById(R.id.location)).setText(row.getLocation());
-          ((TextView) findViewById(R.id.note)).setText(row.getNote());
-        } else {
-          // No records found. Display appropriate message.
-          ((TextView) findViewById(R.id.error)).setText("No record(s) found");
-        }
-      } else {
-        HttpDataSourceErrors httpDataSourceErrors = dataSourceResult.getHttpDataSourceErrors();
-        if (httpDataSourceErrors != null) {
-          HttpDataSourceError[] errors = httpDataSourceErrors.getErrors();
-          if (errors != null && errors.length > 0) {
-            ((TextView) findViewById(R.id.error)).setText("Error: " + errors[0].getCode() + " - " + errors[0].getMessage());
+  public void onDataSourceComplete(DataSourceResult dataSourceResult, int index) {
+    // If executing multiple data sources, pass "index" when calling execute method and then test here to determine which result was passed in.
+    if(index == 1) {
+      if (dataSourceResult.getException() == null) {  // Was there an exception during the execution?
+        if (dataSourceResult.isError() == false) {  // Was the http request successful?
+          // For this data source there should only ever by 1 row because it's a GET method..
+          if (dataSourceResult.getRows().size() > 0) {
+            // Display the data
+            Container_Get1.Row row = (Container_Get1.Row) dataSourceResult.getRows().get(0);
+            ((TextView) findViewById(R.id.partNoRevision)).setText(row.getPartNoRevision());
+            ((TextView) findViewById(R.id.partName)).setText(row.getName());
+            ((TextView) findViewById(R.id.operationCode)).setText(row.getOperationCode());
+            ((TextView) findViewById(R.id.quantity)).setText(row.getQuantity().toString());
+            ((TextView) findViewById(R.id.status)).setText(row.getContainerStatus());
+            ((TextView) findViewById(R.id.location)).setText(row.getLocation());
+            ((TextView) findViewById(R.id.note)).setText(row.getNote());
+          } else {
+            // No records found. Display appropriate message.
+            ((TextView) findViewById(R.id.error)).setText("No record(s) found");
           }
         } else {
-          ((TextView) findViewById(R.id.error)).setText("An unspecified error occured");
-        }
+          HttpDataSourceErrors httpDataSourceErrors = dataSourceResult.getHttpDataSourceErrors();
+          if (httpDataSourceErrors != null) {
+            HttpDataSourceError[] errors = httpDataSourceErrors.getErrors();
+            if (errors != null && errors.length > 0) {
+              ((TextView) findViewById(R.id.error)).setText("Error: " + errors[0].getCode() + " - " + errors[0].getMessage());
+            }
+          } else {
+            ((TextView) findViewById(R.id.error)).setText("An unspecified error occured");
+          }
 
+        }
+      } else {
+        // Exception was thrown during execution.
+        ((TextView) findViewById(R.id.error)).setText(dataSourceResult.getException().getMessage());
       }
-    } else {
-      // Exception was thrown during execution.
-      ((TextView) findViewById(R.id.error)).setText(dataSourceResult.getException().getMessage());
     }
   }
 

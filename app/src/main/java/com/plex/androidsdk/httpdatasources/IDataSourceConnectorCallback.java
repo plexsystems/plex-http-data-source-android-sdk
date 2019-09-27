@@ -39,15 +39,16 @@ public interface IDataSourceConnectorCallback {
 
   /**
    * Returns the result of the data source connector to the callback handler.
-   *
    * @param result The result of the data source connector.
+   * @param index The reference index of the data source execution.
    */
-  void onDataSourceConnectorComplete(HttpDataSourceResult result);
+  void onDataSourceConnectorComplete(HttpDataSourceResult result, int index);
 
   /**
    * Indicate to callback handler any progress update.
    *
    * @param progressCode One of the constants defined in IDataSourceConnectorCallback.Progress.
+   * @param  index The reference index of the data source execution.
    */
-  void onProgressUpdate(int progressCode);
+  void onProgressUpdate(int progressCode, int index);
 }

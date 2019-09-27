@@ -61,7 +61,11 @@ public abstract class DataSource implements IDataSourceConnectorCallback {
    * Execute the data source
    */
   public void execute() {
-    _connector.execute(this.getDataSourceKey(), _credentials, _serverName, _useTestServer, this.getJsonRequest(), this);
+    this.execute(0);
+  }
+
+  public void execute(int index) {
+    _connector.execute(this.getDataSourceKey(), _credentials, _serverName, _useTestServer, this.getJsonRequest(), this, index);
   }
 
   /**
@@ -84,7 +88,7 @@ public abstract class DataSource implements IDataSourceConnectorCallback {
   /**
    * {@inheritDoc}
    */
-  public void onDataSourceConnectorComplete(HttpDataSourceResult result) {
+  public void onDataSourceConnectorComplete(HttpDataSourceResult result, int index) {
     if (_dataSourceCallback != null) {
       DataSourceResult dsResult;
 
@@ -98,14 +102,14 @@ public abstract class DataSource implements IDataSourceConnectorCallback {
         dsResult.setException(result.getException());
       }
 
-      _dataSourceCallback.onDataSourceComplete(dsResult);
+      _dataSourceCallback.onDataSourceComplete(dsResult, index);
     }
   }
 
   /**
    * {@inheritDoc}
    */
-  public void onProgressUpdate(int progressCode) {
+  public void onProgressUpdate(int progressCode, int index) {
 
   }
 
@@ -122,11 +126,17 @@ public abstract class DataSource implements IDataSourceConnectorCallback {
     JsonObject jsonObject = new JsonParser().parse(jsonResponse).getAsJsonObject();
     if (jsonObject.isJsonObject()) {
 
-      // Convert any outputs to an instance object unless an output type is not defined.
-      if (jsonObject.has("outputs") && this.getOutputType() != null ) {
+      // Convert any outputs to an instance object
+      if (jsonObject.has("outputs") ) {
 
         JsonElement outputsElement = jsonObject.get("outputs");
-        dsResult.setOutputs((BaseOutputs) new Gson().fromJson(outputsElement, this.getOutputType()));
+
+        BaseOutputs outputs = this.getBaseOutputs();
+        // Ignore if not output is defined.
+        if(outputs != null) {
+          outputs = (BaseOutputs) new Gson().fromJson(outputsElement, outputs.getClass());
+          dsResult.setOutputs(outputs);
+        }
       }
 
       // Convert any rows to instance objects
@@ -199,6 +209,7 @@ public abstract class DataSource implements IDataSourceConnectorCallback {
    * @return The Type of the class that will hold the outputs.
    */
   protected abstract Type getOutputType();
+  protected BaseOutputs getBaseOutputs(){return null;}
 
   /**
    * Returns the Type of the class that will hold the row, implemented by the class extending DataSource. Use by Gson to Deserialize the "row" section

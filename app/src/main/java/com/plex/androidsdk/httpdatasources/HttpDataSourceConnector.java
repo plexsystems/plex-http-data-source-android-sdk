@@ -36,12 +36,14 @@ public class HttpDataSourceConnector implements IDataSourceConnector {
   private static final String PRODUCTION_URL_FORMAT = "https://%1s.plex.com/api/datasources/%2s/execute?format=2";
   private static final String TEST_URL_FORMAT = "https://test.%1s.plex.com/api/datasources/%2s/execute?format=2";
   private IDataSourceConnectorCallback _callback;
+  private int _index = 0;
 
   @Override
   public void execute(int dataSourceKey, HttpDataSourceCredentials credentials, String serverName, boolean useTestServer, String jsonRequest,
-      IDataSourceConnectorCallback callback) {
+      IDataSourceConnectorCallback callback, int index) {
 
     _callback = callback;
+    _index = index;
     String url = this.getUrl(serverName, dataSourceKey, useTestServer);
     HttpDataSourceRequest dsRequest = new HttpDataSourceRequest(jsonRequest, credentials, url);
 
@@ -173,7 +175,7 @@ public class HttpDataSourceConnector implements IDataSourceConnector {
    * @param httpDataSourceResult The outputs from the task.
    */
   private void onAsyncTaskDone(HttpDataSourceResult httpDataSourceResult) {
-    _callback.onDataSourceConnectorComplete(httpDataSourceResult);
+    _callback.onDataSourceConnectorComplete(httpDataSourceResult, _index);
   }
 
   /**
@@ -182,7 +184,7 @@ public class HttpDataSourceConnector implements IDataSourceConnector {
    * @param progressCode The progress status code value defined in IDataSourceConnectorCallback.Progress.
    */
   private void onAsyncTaskUpdate(int progressCode) {
-    _callback.onProgressUpdate(progressCode);
+    _callback.onProgressUpdate(progressCode, _index);
   }
 
   /**

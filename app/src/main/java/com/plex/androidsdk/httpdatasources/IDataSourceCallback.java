@@ -25,5 +25,5 @@ package com.plex.androidsdk.httpdatasources;
  */
 public interface IDataSourceCallback {
 
-  void onDataSourceComplete(DataSourceResult dataSourceResult);
+  void onDataSourceComplete(DataSourceResult dataSourceResult, int index);
 }

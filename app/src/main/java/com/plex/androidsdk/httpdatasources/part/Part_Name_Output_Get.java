@@ -84,6 +84,11 @@ public class Part_Name_Output_Get extends DataSource {
     return OutputParameters.class;
   }
 
+  @Override
+  protected BaseOutputs getBaseOutputs() {
+    return new OutputParameters();
+  }
+
   /**
    * {@inheritDoc}
    */
